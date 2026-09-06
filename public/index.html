@@ -1,1 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Termux MCP Gateway</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <div class="eyebrow">REMOTE MCP CONTROL PLANE</div>
+        <h1>Termux MCP Gateway</h1>
+        <p>Render relays MCP requests to your connected Termux agent.</p>
+      </div>
+      <div id="overall" class="pill">Checking…</div>
+    </header>
 
+    <section class="grid">
+      <article class="card">
+        <div class="label">Gateway</div>
+        <div id="gateway" class="value">—</div>
+        <div id="gatewayMeta" class="muted">—</div>
+      </article>
+      <article class="card">
+        <div class="label">Termux Agent</div>
+        <div id="agent" class="value">—</div>
+        <div id="agentMeta" class="muted">—</div>
+      </article>
+      <article class="card">
+        <div class="label">Pending Requests</div>
+        <div id="pending" class="value">—</div>
+        <div class="muted">Currently waiting for Termux</div>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <div class="label">Connection</div>
+          <h2>Endpoints</h2>
+        </div>
+        <button onclick="refresh()">Refresh</button>
+      </div>
+
+      <div class="endpoint">
+        <span>MCP</span>
+        <code id="mcpUrl">/mcp</code>
+        <button class="copy" onclick="copyText(document.getElementById('mcpUrl').textContent)">Copy</button>
+      </div>
+      <div class="endpoint">
+        <span>Agent</span>
+        <code id="agentUrl">wss://…/agent</code>
+        <button class="copy" onclick="copyText(document.getElementById('agentUrl').textContent)">Copy</button>
+      </div>
+      <div class="endpoint">
+        <span>Health</span>
+        <code id="healthUrl">/health</code>
+        <button class="copy" onclick="copyText(document.getElementById('healthUrl').textContent)">Copy</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <div class="label">Tools</div>
+          <h2>Termux capabilities</h2>
+        </div>
+      </div>
+      <div class="tools">
+        <span>list_files</span>
+        <span>read_file</span>
+        <span>write_file</span>
+        <span>create_folder</span>
+        <span>delete_file</span>
+        <span>run_command</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <div class="label">Live Status</div>
+          <h2>Agent monitor</h2>
+        </div>
+        <span id="updated" class="muted">—</span>
+      </div>
+      <pre id="json">Waiting for health data…</pre>
+    </section>
+
+    <footer>
+      <span>Termux ↔ Render ↔ ChatGPT</span>
+      <span>Auto-refresh: 5s</span>
+    </footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
