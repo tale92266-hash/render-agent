@@ -12,6 +12,7 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "2mb" }));
+app.use(express.static("public"));
 
 const PORT = Number(process.env.PORT || 10000);
 const AUTH_TOKEN = process.env.AUTH_TOKEN;
@@ -120,13 +121,7 @@ function makeMcpServer() {
 }
 
 app.get("/", (req, res) => {
-  res.json({
-    name: "termux-render-mcp-gateway",
-    status: "ok",
-    agent: !!agent && agent.readyState === 1,
-    mcp: "/mcp",
-    agentEndpoint: "/agent"
-  });
+  res.sendFile("index.html", { root: "public" });
 });
 
 app.get("/health", (req, res) => {
